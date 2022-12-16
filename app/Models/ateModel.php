@@ -8,4 +8,6 @@ class ateModel extends Model
 {
     protected $table = 'noko_ate';
     public $timestamps = false;
+
+    protected $fillable = ['id','name'];
 }
