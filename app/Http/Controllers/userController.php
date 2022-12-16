@@ -9,11 +9,10 @@ class userController extends Controller
 {
     public function login(Request $request){
         $validateRequest = $this->validate($request, [
-            'login' => 'required',
+            'login' => 'required|int',
             'password' => 'required',
         ]);
-     
-        if(Auth::attempt(['id' => $validateRequest['login'], 'pass' => md5($validateRequest['password'])])){
+        if(Auth::attempt(['id' => $validateRequest['login'], 'pass' => $validateRequest['password']])){
             return redirect(route('index'));
         }
         //return redirect(route('index'))->withErrors(['loginErrors' => 'Не правильно!']);

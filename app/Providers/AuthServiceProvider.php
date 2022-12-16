@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 //use App\MyEasyAuth\User;
 use App\User;
-use App\MyEasyAuth\myUserProvider;
+use App\Providers\myUserProvider;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -29,6 +29,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        Auth::provider('myTestProvider', function ($app, array $config) {
+            return new myUserProvider($app->make('Illuminate\Contracts\Hashing\Hasher'), 'App\User');
+        });
+
         Gate::define('show-result', function(User $user){
             return isset($user) && $user->type == 2;
         });
@@ -43,9 +47,7 @@ class AuthServiceProvider extends ServiceProvider
             return new myUserProvider();
         });
 
-        Auth::provider('myTest', function ($app, array $config) {
-            return new myUserProvider($app->make('App\MyEasyAuth\userModel'));
-        });
+        
         */
         //
     }
