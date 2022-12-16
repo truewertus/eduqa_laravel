@@ -74,8 +74,5 @@ class schoolsController extends Controller
         }
         return redirect(route('schools.index'));
     }   
-
-    public function foto($id){
-        return view('welcome');
-    }
+    
 }

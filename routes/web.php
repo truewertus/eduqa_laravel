@@ -33,5 +33,9 @@ Route::name('schools.')->middleware(['myAuth'])->group(function(){
     Route::get('/school/{id}', 'schoolsController@show')->name('show');
     Route::post('/school/{id}', 'schoolsController@change')->name('change');
     Route::get('/delschool/{id}', 'schoolsController@delete')->name('delete');
-    Route::get('/foto/{id}','schoolsController@foto')->name('photo');
+});
+
+Route::name('photo.')->middleware(['myAuth'])->group(function(){
+    Route::get('/foto/{id}','photoController@index')->name('index');
+    Route::post('/foto/{id}','photoController@save')->name('save');
 });

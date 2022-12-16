@@ -29,7 +29,7 @@
                     <td>{{ $school->id }}</td>
                     <td><a href='{{ route('schools.show', ['id' => $school->id]) }}'
                             class="btn btn-success">Редактировать</a>
-                        <a href="{{route('schools.photo', ['id' => $school->id]) }}" class="btn btn-info">Фото</a>
+                        <a href="{{route('photo.index', ['id' => $school->id]) }}" class="btn btn-info">Фото</a>
                         <a href='{{ route('schools.delete', ['id' => $school->id]) }}' type="button"
                             class="btn btn-danger">Удалить</a>
                         <a href="/eam/2108" class="btn btn-info">Анкета</a>
