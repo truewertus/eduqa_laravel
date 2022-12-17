@@ -23,15 +23,20 @@ class schoolsController extends Controller
 
     public function show($id){
         $userType = Auth::user()->type==1?1:0;
-        if($userType == 0){
-            $school = schoolsModel::where(['deleted' => 0,'ate' => Auth::user()->ate, 'id' => $id])->first();
-        }elseif($userType == 1){
-            $school = cultureModel::where(['deleted' => 0,'num' => Auth::user()->ate,'id' => $id])->first();
+        if(is_numeric($id)){
+            if($userType == 0){
+                $school = schoolsModel::where(['deleted' => 0,'ate' => Auth::user()->ate, 'id' => $id])->first();
+            }elseif($userType == 1){
+                $school = cultureModel::where(['deleted' => 0,'num' => Auth::user()->ate,'id' => $id])->first();
+            }
+            if(empty($school)){
+                return redirect(route('index'));
+            }
+            return view('schools.modschool',['school' => $school]);
+        }elseif($id == 'new'){
+            $school = $userType==0?new schoolsModel():new cultureModel();
+            return view('schools.modschool',['school' => $school]);
         }
-        if(empty($school)){
-            return redirect(route('index'));
-        }
-        return view('schools.modschool',['school' => $school]);
     }
 
     public function change($id, Request $request){
@@ -43,21 +48,30 @@ class schoolsController extends Controller
             'vib' => 'int|nullable',
         ]);
         $userType = Auth::user()->type==1?1:0;
-        if($userType == 0){
-            $school = schoolsModel::where(['deleted' => 0,'ate' => Auth::user()->ate, 'id' => $id])->first();
-        }elseif($userType == 1){
-            $school = cultureModel::where(['deleted' => 0,'num' => Auth::user()->ate,'id' => $id])->first();
+        if(is_numeric($id)){
+            if($userType == 0){
+                $school = schoolsModel::where(['deleted' => 0,'ate' => Auth::user()->ate, 'id' => $id])->first();
+            }elseif($userType == 1){
+                $school = cultureModel::where(['deleted' => 0,'num' => Auth::user()->ate,'id' => $id])->first();
+            }
+            if(empty($school)){
+                return redirect(route('index'));
+            }
+            $school->name = $validate['name'];
+            $school->address = $validate['address'];
+            $school->site = $validate['site'];
+            $school->con = $validate['con'];
+            $school->vib = $validate['vib'];
+            $school->save();
+            return redirect(route('schools.show',$id))->with(['saved' => 'Все сохранено!']);
+        }elseif($id == "new"){
+            if($userType == 0){
+                $school = schoolsModel::create(['deleted' => 0,'ate' => Auth::user()->ate, 'name' => $validate['name'], 'address' => $validate['address'], 'site' => $validate['site'], 'con' => $validate['con'],'vib' => $validate['vib']] );
+            }elseif($userType == 1){
+                $school = cultureModel::create(['deleted' => 0,'num' => Auth::user()->ate, 'name' => $validate['name'], 'address' => $validate['address'], 'site' => $validate['site'], 'con' => $validate['con'],'vib' => $validate['vib']] );
+            }
+            return redirect(route('schools.show',$school->id))->with(['saved' => 'Все сохранено!']);
         }
-        if(empty($school)){
-            return redirect(route('index'));
-        }
-        $school->name = $validate['name'];
-        $school->address = $validate['address'];
-        $school->site = $validate['site'];
-        $school->con = $validate['con'];
-        $school->vib = $validate['vib'];
-        $school->save();
-        return redirect(route('schools.show',$id))->with(['saved' => 'Все сохранено!']);
     }
 
     public function delete($id){

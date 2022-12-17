@@ -1,7 +1,8 @@
 @extends('main')
 @section('index')
     <div class='col-md-8 offset-md-2'>
-        <h3>Исследования</h3>
+        <h3>Список организаций</h3>
+        <a href='{{ route('schools.show', ['id' => 'new']) }}' class='badge badge-primary'>Добавить</a>
         @if (session('message'))
             <div class='alert alert-success'>
                 {{ session('message') }}

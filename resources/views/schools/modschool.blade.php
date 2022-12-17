@@ -1,6 +1,6 @@
 @extends('main')
 @section('index')
-    <form method="POST" action="{{ route('schools.change',['id' => $school->id]) }}">
+    <form method="POST" action="{{ !empty($school->id)?route('schools.change',['id' => $school->id]):route('schools.change',['id' => 'new']) }}">
     {{ csrf_field() }}
     <div class="col-md-6 offset-md-3 form-group">
         <h3>{{$school->name}}</h3>
