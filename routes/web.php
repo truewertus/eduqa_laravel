@@ -39,3 +39,9 @@ Route::name('photo.')->middleware(['myAuth'])->group(function(){
     Route::get('/foto/{id}','photoController@index')->name('index');
     Route::post('/foto/{id}','photoController@save')->name('save');
 });
+
+Route::name('anketa.')->group(function(){
+    Route::get('/anketa', 'anketaController@index')->name('index');
+    Route::get('/anketa/{id}', 'anketaController@show')->name('show');
+    Route::post('/anketa/{id}', 'anketaController@save')->name('save');
+});
